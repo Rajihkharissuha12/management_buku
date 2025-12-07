@@ -11,9 +11,13 @@ import (
 var DB *gorm.DB
 
 func Connect() {
-	// dsn := "host=localhost user=postgres password=rajih123 dbname=managementbuku port=5432 sslmode=disable"
 	// Railway menyediakan DATABASE_URL
 	dsn := os.Getenv("DATABASE_URL")
+
+	// Jika run lokal, fallback ke local DSN
+	if dsn == "" {
+		dsn = "host=localhost user=postgres password=rajih123 dbname=managementbuku port=5432 sslmode=disable"
+	}
 
 	var err error
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
